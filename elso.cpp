@@ -147,3 +147,5 @@ cerr << "Valami hiba tortent!" << '\n';
 return 2;
 }
 }
+
+
