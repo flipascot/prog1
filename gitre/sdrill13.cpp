@@ -1,4 +1,6 @@
-/* g++ ch13drill.cpp Graph.cpp Window.cpp GUI.cpp Simple_window.cpp -o ch fltk-config --ldflags --use-images*/ 
+//* 
+g++ sdrill13.cpp Graph.cpp Window.cpp GUI.cpp Simple_window.cpp -o ch `fltk-config --ldflags --use-images`
+*/ 
 #include "Simple_window.h"
 #include "Graph.h"
 
