@@ -1,3 +1,5 @@
+// g++ drill14.cpp 
+// ./a.out
 #include <iostream>
 #include <vector>
 
