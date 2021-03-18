@@ -1,91 +1,93 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
 
-class B1{
+class B1 {
 public:
-    void f(){
-        cout<<"B1:f()\n";
-    }
-    
-    virtual void vf(){
-        cout<<"B1:vf()\n";
+    void f() {
+        std::cout << "B1::f()\n";
     }
 
-    virtual void pvf()=0;
+    virtual void vf() {
+        std::cout << "B1::vf()\n";
+    }
+
+    virtual void pvf() = 0;
 };
 
-class D1: public B1{
+class D1 : public B1 {
 public:
-    void f(){
-        cout<<"D1:f()\n";
+    void f() {
+        std::cout << "D1::f()\n";
     }
-    virtual void vf() override {
-        cout<<"D1:vf()\n";
+    void vf() override {
+        std::cout << "D1::vf()\n";
     }
-    
-};
 
-
-class D2: public D1{
-    virtual void pvf() override {
-        cout<<"D2:pvf()\n";
-    }
-};
-
-
-
-class B2{
-    public:
-    virtual void pvf()=0;
-};
-
-class D21: public B2{
-    public:
-    string szoveg = "Krisz";
     void pvf() override {
-        cout<<szoveg<<'\n';
-    }
+        std::cout << "D1::pvf()\n";
+    };
 };
 
-class D22: public B2{
-    public:
-    int szam = 11;
+class D2 : public D1 {
+public:
+    void vf() override {
+        std::cout << "D2::vf()\n";
+    }
     void pvf() override {
-        cout<<szam<<'\n';
-    }
-
+        std::cout << "D2::pvf()\n";
+    };
 };
 
-void f(B2& kap){
-    kap.pvf();
+class B2 {
+public:
+    virtual void pvf() = 0;
+};
+
+class D21 : public B2 {
+public:
+    void pvf() override {
+        std::cout << szoveg;
+    }
+
+private:
+    std::string szoveg{"Banat\n"};
+};
+
+class D22 : public B2 {
+public:
+    void pvf() override {
+        std::cout << szam << std::endl;
+    }
+
+private:
+    int szam{0};
+};
+
+void f(B2 &bazis) {
+    bazis.pvf();
 }
 
-int main(){
-    B1 b1obj;
-    b1obj.vf();
-    b1obj.f();
+int main() {
 
-    D1 d1obj;
-    d1obj.vf();
-    d1obj.f();
+        D1 d;
+        d.f();
+        d.vf();
+        d.pvf();
 
-    B1& ref = d1obj;
-    ref.vf();
-    ref.f();
+        B1 &b_ref = d;
+        b_ref.f();
+        b_ref.vf();
+        b_ref.pvf();
 
-    D2 d2obj;
-    d2obj.vf();
-    d2obj.f();
-    d2obj.pvf();
+        D2 dd;
+        dd.f();
+        dd.vf();
+        dd.pvf();
 
-    D21 d21obj;
-    D22 d22obj;
-    f(d21obj);
-    f(d22obj);
+    D21        bbd;
+    D22     bbdd;
 
-
-
-    return 0;
+    f(bbd);
+    f(bbdd);
 }
