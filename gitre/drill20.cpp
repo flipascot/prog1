@@ -1,133 +1,127 @@
-#include "std_lib_facilities.h"
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+#include <algorithm>
+#include <list>
+#include <array>
+#include <string>
 
-template<typename T, int N>
-struct array {
-    typedef T* iterator;
-    typedef unsigned int size_type;
+using namespace std;
 
-    T elems[N];
 
-    iterator begin() { return elems; }
-    iterator end() { return elems+N; }
-    size_type size() const { return N; }
-    T& operator[](int n) { return elems[n]; }
-    T* data() { return elems; }
-};
 
-template<typename Iter>
-void print(Iter first, Iter end, const string& s)
-{
-    cout << s << ": { ";
-    while (first!=end) {
-        cout << *first << ' ';
-        ++first;
-    }
-    cout << "}\n";
-}
+template<typename C>
+void print(const C& c)
+ {
+	for(auto& a:c)
+		cout<< a << ' ';
+	cout << endl;
+	cout << endl;
+ }
 
+
+
+template<typename T>
+ void incr(T& t, int n=1)
+ {
+
+ 	for(auto& a:t)
+ 		a+=n;
+ }
 
 template<typename Iter1, typename Iter2>
+ // requires Input_iterator<Iter1>() && Output_iterator<Iter2>()
 Iter2 my_copy(Iter1 f1, Iter1 e1, Iter2 f2)
 {
-    while (f1!=e1) {
-        *f2 = *f1;
-        ++f1;
-        ++f2;
-    }
+	 for (Iter1 p = f1; p != e1; ++p)
+        *f2++ = *p;
+
     return f2;
 }
 
-int position = 0;
 
 int main()
-try
 {
-    
-    const int arr_sz = 10;
-
-    array<int,arr_sz> array_int;
-    for (int i = 0; i<array_int.size(); ++i) array_int[i] = i;
-    print(array_int.begin(),array_int.end(),"array_int");
-
-   
-    vector<int> vector_int;
-    for (int i = 0; i<arr_sz; ++i) vector_int.push_back(i);
-    print(vector_int.begin(),vector_int.end(),"vector_int");
-
-    
-    list<int> list_int;
-    for (int i = 0; i<arr_sz; ++i) list_int.push_back(i);
-    print(list_int.begin(),list_int.end(),"list_int");
-
-    cout << endl;
-
-    
-    array<int,arr_sz> array_copy = array_int;
-    print(array_copy.begin(),array_copy.end(),"array_copy");
-
-    vector<int> vector_copy = vector_int;
-    print(vector_copy.begin(),vector_copy.end(),"vector_copy");
-
-    list<int> list_copy = list_int;
-    print(list_copy.begin(),list_copy.end(),"list_copy");
-
-    cout << endl;
-
-    
-    //  (array<int>::Iterator p)
-    for (auto p = array_int.begin(); p!=array_int.end(); ++p)
-        *p += 2;
-    print(array_int.begin(),array_int.end(),"array_int+=2");
-
-    for (auto p = vector_int.begin(); p!=vector_int.end(); ++p)
-        *p += 3;
-    print(vector_int.begin(),vector_int.end(),"vector_int+=3");
-
-    for (auto p = list_int.begin(); p!=list_int.end(); ++p)
-        *p += 5;
-    print(list_int.begin(),list_int.end(),"list_int+=5");
-
-    cout << endl;
-
- 
-    vector<int>::iterator v_it = my_copy(array_int.begin(),array_int.end(),vector_int.begin());
-    array<int,arr_sz>::iterator a_it = my_copy(list_int.begin(),list_int.end(),array_int.begin());
-
-    if (v_it!=vector_int.begin() && a_it!=array_int.begin())
-    {
-        print(array_int.begin(),array_int.end(),"array_int copied from list_int");
-        print(vector_int.begin(),vector_int.end(),"vector_int copied from array_int");
-        print(list_int.begin(),list_int.end(),"list_int");
-    }
-
-    cout << endl;
-
-   
-    v_it = find(vector_int.begin(),vector_int.end(),3);
-    if (v_it != vector_int.end())
-    {
-        for(vector<int>::iterator v_iter = vector_int.begin(); v_iter != v_it; ++v_iter)
-            ++position;
-        cout << "In vector_int, position of 3 is at " << position+1 << ".\n";
-    }    
 
 
+	const int size=10;
+	int arr[size];
 
-    list<int>::iterator l_it = find(list_int.begin(),list_int.end(),27);
-    if (l_it!=list_int.end())
-    {
-        for (list<int>::iterator iter = list_int.begin(); iter!=l_it; ++iter)
-            ++position;
-        cout << "In list_int, position of 27 is at  " << position+1 << ".\n";
-    }
-    else
-        cout << "27 is not in list_int.\n";
-}
-catch (exception& e)
-{
-    cerr << "exception: " << e.what() << endl;
-}
-catch (...) 
-{
-    cerr << "exception\n";
+	for(int i =0; i<size; i++)
+	{
+		arr[i]=i;
+	}
+
+
+	array<int, size> a;
+	copy(arr, arr+ size, a.begin());
+	cout<<"Az array kiiratva:"<<endl;
+	print(a);
+
+	
+
+	vector<int> v(size);
+	copy(arr, arr+ size, v.begin());
+	cout<<"A vector kiiratva:"<<endl;
+	print(v);
+
+	
+
+	list<int> l(size);
+	copy(arr, arr+ size, l.begin());
+	cout<<"A list kiiratva:"<<endl;
+	print(l);
+
+	
+
+	array<int, size> a2=a;
+	cout<<"Az array_copy kiiratva:"<<endl;
+	print(a2);
+
+	vector<int> v2=v;
+	cout<<"A vector_copy kiiratva:"<<endl;
+	print(v2);
+
+	list<int> l2=l;
+	cout<<"A list_copy kiiratva:"<<endl;
+	print(l2);
+
+	
+	
+
+	incr(a2, 2);
+	cout<<"Az array megnovelve kiiratva:"<<endl;
+	print(a2);
+
+	incr(v2, 3);
+	cout<<"A vector megnovelve kiiratva:"<<endl;
+	print(v2);
+
+	incr(l2, 5);
+	cout<<"A list megnovelve kiiratva:"<<endl;
+	print(l2);
+
+	
+	my_copy(a2.begin(), a2.end(), v2.begin());
+	my_copy(l2.begin(), l2.end(), a2.begin());
+
+	cout<<"A vector miutan bele copyztuk az arrayt :"<<endl;
+	print(v2);
+	cout<<"At array miutan bele copyztuk a listet :"<<endl;
+	print(a2);
+
+	vector<int>:: iterator serc;
+	serc=find(v2.begin(), v2.end(), 3);
+	if(serc!= v2.end())
+		cout<< "A" <<' '<<distance(v2.begin(), serc) << ". helyen van" << endl;
+	else
+		 cout<< "Nincs ilyen eleme";
+
+	list<int>:: iterator serc2;
+	serc2=find(l2.begin(), l2.end(), 27);
+	if(serc2!= l2.end())
+		cout<< "A" <<' '<<distance(l2.begin(), serc2) << ". helyen van" << endl;
+	else
+		 cout<< "Nincs ilyen eleme" << endl;
+
 }
