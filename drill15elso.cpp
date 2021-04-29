@@ -1,4 +1,4 @@
-* 
+*/
 g++ drill15elso.cpp ../lib_files/Graph.cpp ../lib_files/Window.cpp ../lib_files/GUI.cpp ../lib_files/Simple_window.cpp -o drill15elso `fltk-config --ldflags --use-images` 
 */ 
 #include "../lib_files/Simple_window.h"
